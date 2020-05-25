@@ -4,25 +4,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import spittr.entity.Priority;
-import spittr.repo.PriorityRepo;
+import spittr.entity.Category;
+import spittr.repo.CategoryRepo;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/priority")
-public class PriorityController {
+@RequestMapping("/category")
+public class CategoryController {
 
-    private final PriorityRepo priorityRepo;
+    private final CategoryRepo categoryRepo;
 
     @Autowired
-    public PriorityController(PriorityRepo priorityRepo) {
-        this.priorityRepo = priorityRepo;
+    public CategoryController(CategoryRepo categoryRepo) {
+        this.categoryRepo = categoryRepo;
     }
 
     @GetMapping("/test")
-    public List<Priority> test(){
-        return priorityRepo.findAll();
+    public List<Category> test(){
+
+        return categoryRepo.findAll();
+
     }
+
+
+
+
 
 }
