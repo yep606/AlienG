@@ -12,13 +12,13 @@ import java.sql.Date;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-public class TaskEntity {
+public class Task {
     private Long id;
     private String title;
     private Integer completed;
     private Date date;
-    private PriorityEntity priority;
-    private CategoryEntity category;
+    private Priority priority;
+    private Category category;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -47,13 +47,13 @@ public class TaskEntity {
 
     @ManyToOne
     @JoinColumn(name = "priority_id", referencedColumnName = "id")
-    public PriorityEntity getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    public CategoryEntity getCategory() {
+    public Category getCategory() {
         return category;
     }
 

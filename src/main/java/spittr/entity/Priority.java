@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-public class PriorityEntity {
+public class Priority {
     private Long id;
     private String title;
     private String color;

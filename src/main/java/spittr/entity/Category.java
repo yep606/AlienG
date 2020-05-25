@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-public class CategoryEntity {
+public class Category {
     private Long id;
     private String title;
     private Long completedCount;
