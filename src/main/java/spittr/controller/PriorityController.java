@@ -1,9 +1,7 @@
 package spittr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import spittr.entity.Priority;
 import spittr.repo.PriorityRepo;
 
@@ -23,6 +21,12 @@ public class PriorityController {
     @GetMapping("/test")
     public List<Priority> test(){
         return priorityRepo.findAll();
+    }
+
+    @PostMapping("/add")
+    public Priority add(@RequestBody Priority priority) {
+        System.out.println(priority);
+        return priorityRepo.save(priority);
     }
 
 }

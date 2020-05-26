@@ -1,9 +1,7 @@
 package spittr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import spittr.entity.Category;
 import spittr.repo.CategoryRepo;
 
@@ -22,9 +20,13 @@ public class CategoryController {
 
     @GetMapping("/test")
     public List<Category> test(){
-
         return categoryRepo.findAll();
+    }
 
+    @PostMapping("/add")
+    public void add(@RequestBody Category category) {
+        System.out.println(category);
+        categoryRepo.save(category);
     }
 
 
