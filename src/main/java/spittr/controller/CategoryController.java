@@ -1,6 +1,8 @@
 package spittr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spittr.entity.Category;
 import spittr.repo.CategoryRepo;
@@ -24,10 +26,16 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public void add(@RequestBody Category category) {
-        System.out.println(category);
-        categoryRepo.save(category);
+    public ResponseEntity<Category> add(@RequestBody Category category) {
+        if(category.getId() != null && category.getId() != 0)
+            return new ResponseEntity("Redundant param: id must be null", HttpStatus.NOT_ACCEPTABLE);
+        if(category.getTitle() == null || category.getTitle().trim().length() == 0) {
+            return new ResponseEntity("Missed param: title", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        return ResponseEntity.ok(categoryRepo.save(category));
     }
+
 
 
 
