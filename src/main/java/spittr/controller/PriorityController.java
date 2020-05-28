@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import spittr.entity.Category;
 import spittr.entity.Priority;
 import spittr.repo.PriorityRepo;
 
@@ -38,9 +39,15 @@ public class PriorityController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Priority> update(@RequestBody Priority priority){
+    public ResponseEntity<Priority> update(@RequestBody Priority priority) {
 
-        if (priority.getId() == 0 )
+        if (priority.getId() == null || priority.getId() == 0)
+            return new ResponseEntity("Missed param: id", HttpStatus.NOT_ACCEPTABLE);
+
+        if (priority.getTitle() == null || priority.getTitle().trim().length() == 0)
+            return new ResponseEntity("Missed param: title", HttpStatus.NOT_ACCEPTABLE);
+
+        return ResponseEntity.ok(priorityRepo.save(priority));
 
     }
 

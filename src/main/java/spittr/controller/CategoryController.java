@@ -21,24 +21,32 @@ public class CategoryController {
     }
 
     @GetMapping("/test")
-    public List<Category> test(){
+    public List<Category> test() {
         return categoryRepo.findAll();
     }
 
     @PostMapping("/add")
     public ResponseEntity<Category> add(@RequestBody Category category) {
-        if(category.getId() != null && category.getId() != 0)
+        if (category.getId() != null && category.getId() != 0)
             return new ResponseEntity("Redundant param: id must be null", HttpStatus.NOT_ACCEPTABLE);
-        if(category.getTitle() == null || category.getTitle().trim().length() == 0) {
+        if (category.getTitle() == null || category.getTitle().trim().length() == 0) {
             return new ResponseEntity("Missed param: title", HttpStatus.NOT_ACCEPTABLE);
         }
 
         return ResponseEntity.ok(categoryRepo.save(category));
     }
 
+    @PutMapping("/update")
+    public ResponseEntity update(@RequestBody Category category) {
 
+        if (category.getId() == null || category.getId() == 0)
+            return new ResponseEntity("Missed param: id", HttpStatus.NOT_ACCEPTABLE);
 
+        if (category.getTitle() == null || category.getTitle().trim().length() == 0)
+            return new ResponseEntity("Missed param: title", HttpStatus.NOT_ACCEPTABLE);
 
+        return ResponseEntity.ok(categoryRepo.save(category));
 
-
+    }
 }
+
