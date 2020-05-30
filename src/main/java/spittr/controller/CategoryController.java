@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spittr.entity.Category;
+import spittr.entity.Priority;
 import spittr.repo.CategoryRepo;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/category")
@@ -20,7 +22,7 @@ public class CategoryController {
         this.categoryRepo = categoryRepo;
     }
 
-    @GetMapping("/test")
+    @GetMapping("/all")
     public List<Category> test() {
         return categoryRepo.findAll();
     }
@@ -46,7 +48,16 @@ public class CategoryController {
             return new ResponseEntity("Missed param: title", HttpStatus.NOT_ACCEPTABLE);
 
         return ResponseEntity.ok(categoryRepo.save(category));
-
     }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Category> getOne(@PathVariable Long id){
+        Optional<Category> category = categoryRepo.findById(id);
+        if(category.isPresent())
+            return ResponseEntity.ok(category.get());
+        else
+            return new ResponseEntity(String.format("Id: %d not found", id), HttpStatus.NOT_ACCEPTABLE);
+    }
+
 }
 
