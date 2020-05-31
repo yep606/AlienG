@@ -5,9 +5,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import spittr.entity.Category;
 import spittr.entity.Priority;
 import spittr.repo.PriorityRepo;
+import spittr.search.PrioritySearchValues;
 
 import java.util.List;
 import java.util.Optional;
@@ -68,6 +68,13 @@ public class PriorityController {
             return new ResponseEntity(String.format("Id: %d not found", id), HttpStatus.NOT_ACCEPTABLE);
         }
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<Priority>> search(@RequestBody PrioritySearchValues values){
+
+        return ResponseEntity.ok(priorityRepo.findByTitle(values.getText()));
+
     }
 
 

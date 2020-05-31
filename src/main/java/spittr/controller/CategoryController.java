@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import spittr.entity.Category;
 import spittr.entity.Priority;
 import spittr.repo.CategoryRepo;
+import spittr.search.CategorySearchValues;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +71,12 @@ public class CategoryController {
         }
         return new ResponseEntity(HttpStatus.OK);
 
+    }
+
+    //searching by any value CategorySearchValues
+    @PostMapping("/search")
+    public ResponseEntity<List<Category>> search(@RequestBody CategorySearchValues values){
+        return ResponseEntity.ok(categoryRepo.findByTitle(values.getText()));
     }
 }
 

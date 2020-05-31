@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CategorySearchValues {
+public class PrioritySearchValues {
 
     private String text;
 
