@@ -1,6 +1,7 @@
 package spittr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,16 @@ public class CategoryController {
 
     @GetMapping("/all")
     public List<Category> test() {
-        return categoryRepo.findAll();
+        return categoryRepo.findAllByOrderByIdAsc();
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Category> getOne(@PathVariable Long id) {
+        Optional<Category> category = categoryRepo.findById(id);
+        if (category.isPresent())
+            return ResponseEntity.ok(category.get());
+        else
+            return new ResponseEntity(String.format("Id: %d not found", id), HttpStatus.NOT_ACCEPTABLE);
     }
 
     @PostMapping("/add")
@@ -50,14 +60,16 @@ public class CategoryController {
         return ResponseEntity.ok(categoryRepo.save(category));
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<Category> getOne(@PathVariable Long id){
-        Optional<Category> category = categoryRepo.findById(id);
-        if(category.isPresent())
-            return ResponseEntity.ok(category.get());
-        else
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity deleteOne(@PathVariable Long id) {
+        try {
+            categoryRepo.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
             return new ResponseEntity(String.format("Id: %d not found", id), HttpStatus.NOT_ACCEPTABLE);
-    }
+        }
+        return new ResponseEntity(HttpStatus.OK);
 
+    }
 }
 

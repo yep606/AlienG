@@ -1,6 +1,7 @@
 package spittr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,16 @@ public class PriorityController {
 
     @GetMapping("/all")
     public List<Priority> test(){
-        return priorityRepo.findAll();
+        return priorityRepo.findAllByOrderByIdAsc();
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Priority> getOne(@PathVariable Long id){
+        Optional<Priority> priority = priorityRepo.findById(id);
+        if(priority.isPresent())
+            return ResponseEntity.ok(priority.get());
+        else
+            return new ResponseEntity(String.format("Id: %d not found", id), HttpStatus.NOT_ACCEPTABLE);
     }
 
     @PostMapping("/add")
@@ -49,13 +59,15 @@ public class PriorityController {
         return ResponseEntity.ok(priorityRepo.save(priority));
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<Priority> getOne(@PathVariable Long id){
-        Optional<Priority> priority = priorityRepo.findById(id);
-        if(priority.isPresent())
-            return ResponseEntity.ok(priority.get());
-        else
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity deleteOne(@PathVariable Long id) {
+        try {
+            priorityRepo.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
             return new ResponseEntity(String.format("Id: %d not found", id), HttpStatus.NOT_ACCEPTABLE);
+        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
