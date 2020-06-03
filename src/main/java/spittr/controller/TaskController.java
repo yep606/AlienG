@@ -5,8 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import spittr.entity.Priority;
 import spittr.entity.Task;
 import spittr.repo.TaskRepo;
+import spittr.search.PrioritySearchValues;
+import spittr.search.TaskSearchValues;
 
 import java.util.List;
 import java.util.Optional;
@@ -66,6 +69,12 @@ public class TaskController {
             return new ResponseEntity(String.format("Id: %d not found", id), HttpStatus.NOT_ACCEPTABLE);
         }
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<Task>> search(@RequestBody TaskSearchValues values){
+//        return ResponseEntity.ok(taskRepo.findByTitle(values.getText()));
+        return null;
     }
 
 
