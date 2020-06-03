@@ -41,6 +41,7 @@ public class PriorityController {
     public ResponseEntity<Priority> add(@RequestBody Priority priority) {
         if(priority.getId() != null && priority.getId() != 0)
             return new ResponseEntity("Redundant param: id must be null", HttpStatus.NOT_ACCEPTABLE);
+
         if(priority.getTitle() == null || priority.getTitle().trim().length() == 0) {
             return new ResponseEntity("Missed param: title", HttpStatus.NOT_ACCEPTABLE);
         }
